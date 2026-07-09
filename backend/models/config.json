@@ -1,0 +1,5 @@
+{
+    "max_len": 41,
+    "max_words": 10000,
+    "oov_token": "<OOV>"
+}
