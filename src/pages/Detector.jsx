@@ -25,7 +25,7 @@ export default function Detector() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/predict",
+        "http://127.0.0.1:8000/predict" || "https://nlpproject-git-main-raiims-projects.vercel.app/predict",
         {
           text: text,
         }

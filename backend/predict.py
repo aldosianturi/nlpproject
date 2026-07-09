@@ -1,3 +1,4 @@
+import os
 import json
 import pickle
 import re
@@ -15,22 +16,25 @@ from tensorflow.keras.layers import (
 )
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
+# Mendapatkan lokasi folder 'backend' secara dinamis
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # ==========================
 # Load tokenizer
 # ==========================
-with open("models/tokenizer.pkl", "rb") as f:
+tokenizer_path = os.path.join(BASE_DIR, "models", "tokenizer.pkl")
+with open(tokenizer_path, "rb") as f:
     tokenizer = pickle.load(f)
 
 
 # ==========================
 # Load config
 # ==========================
-with open("models/config.json", "r") as f:
+config_path = os.path.join(BASE_DIR, "models", "config.json")
+with open(config_path, "r") as f:
     config = json.load(f)
 
 max_len = config["max_len"]
-
 vocab_size = 10000
 embedding_dim = 100
 
@@ -38,7 +42,8 @@ embedding_dim = 100
 # ==========================
 # Load embedding matrix
 # ==========================
-embedding_matrix = np.load("models/embedding_matrix.npy")
+embedding_path = os.path.join(BASE_DIR, "models", "embedding_matrix.npy")
+embedding_matrix = np.load(embedding_path)
 
 
 # ==========================
@@ -75,7 +80,8 @@ model = Sequential([
 # ==========================
 # Load weights
 # ==========================
-model.load_weights("models/bilstm_hatespeech.weights.h5")
+weights_path = os.path.join(BASE_DIR, "models", "bilstm_hatespeech.weights.h5")
+model.load_weights(weights_path)
 
 
 # ==========================
@@ -93,9 +99,7 @@ def clean_text(text):
 # Prediction
 # ==========================
 def predict_text(text):
-
     text = clean_text(text)
-
     seq = tokenizer.texts_to_sequences([text])
 
     pad = pad_sequences(
@@ -108,7 +112,6 @@ def predict_text(text):
     prob = model.predict(pad, verbose=0)[0][0]
 
     label = "Hate Speech" if prob >= 0.5 else "Non Hate Speech"
-
     confidence = float(prob) if prob >= 0.5 else float(1 - prob)
 
     return {
