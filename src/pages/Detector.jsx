@@ -27,7 +27,7 @@ const analyzeText = async () => {
     // Otomatis deteksi environment lokal vs produksi (Ganti URL Render dengan URL asli kamu nanti)
     const BACKEND_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
       ? "http://127.0.0.1:8000/predict"
-      : "https://hateguard-backend.onrender.com/predict"; 
+      : "https://nlpproject-weld.vercel.app/predict"; 
 
     try {
       // HAPUS axios.post lama, GANTI dengan fungsi predictText yang sudah di-import
