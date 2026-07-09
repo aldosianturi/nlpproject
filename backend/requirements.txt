@@ -1,7 +1,8 @@
 fastapi
 uvicorn
-tensorflow
+tensorflow-cpu
 numpy
 pandas
 scikit-learn
 python-multipart
+mangum
