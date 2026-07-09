@@ -38,6 +38,6 @@ frontend/node_modules/
 .vscode/
 
 # Tensorflow
-*.h5
-*.model
-*.npy
+# *.h5
+# *.model
+# *.npy

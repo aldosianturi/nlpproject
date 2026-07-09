@@ -1,7 +1,0 @@
-fastapi
-uvicorn
-tensorflow
-numpy
-pandas
-pickle-mixin
-python-multipart
