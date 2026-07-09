@@ -1,7 +1,6 @@
 import { Search } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import axios from "axios";
 import { predictText } from "../services/api";
 
 export default function Detector() {
@@ -16,7 +15,7 @@ export default function Detector() {
     "Terima kasih atas bantuan yang diberikan kepada masyarakat yang membutuhkan.",
   ];
 
-const analyzeText = async () => {
+  const analyzeText = async () => {
     if (!text.trim()) {
       alert("Masukkan teks terlebih dahulu.");
       return;
@@ -24,23 +23,10 @@ const analyzeText = async () => {
 
     setLoading(true);
 
-    // Otomatis deteksi environment lokal vs produksi (Ganti URL Render dengan URL asli kamu nanti)
-    const BACKEND_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-      ? "http://127.0.0.1:8000/predict"
-      : "https://nlpproject-weld.vercel.app/predict"; 
-
     try {
-      // HAPUS axios.post lama, GANTI dengan fungsi predictText yang sudah di-import
+      // Menggunakan fungsi service API yang sudah bersih
       const data = await predictText(text);
-      
-      // Karena di dalam service biasanya langsung mengembalikan response.data,
-      // kita bisa langsung memasukkannya ke setResult
       setResult(data);
-      const response = await axios.post(BACKEND_URL, {
-        text: text,
-      });
-
-      setResult(response.data);
     } catch (error) {
       console.error(error);
       alert("Tidak dapat terhubung ke backend.");
@@ -48,7 +34,7 @@ const analyzeText = async () => {
 
     setLoading(false);
   };
-  
+
   return (
     <section id="detector" className="bg-slate-50 py-24">
       <div className="max-w-7xl mx-auto px-6">
