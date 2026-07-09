@@ -2,6 +2,7 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
+import { predictText } from "../services/api";
 
 export default function Detector() {
   const [text, setText] = useState("");
@@ -15,7 +16,7 @@ export default function Detector() {
     "Terima kasih atas bantuan yang diberikan kepada masyarakat yang membutuhkan.",
   ];
 
-  const analyzeText = async () => {
+const analyzeText = async () => {
     if (!text.trim()) {
       alert("Masukkan teks terlebih dahulu.");
       return;
@@ -24,14 +25,12 @@ export default function Detector() {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/predict",
-        {
-          text: text,
-        }
-      );
-
-      setResult(response.data);
+      // HAPUS axios.post lama, GANTI dengan fungsi predictText yang sudah di-import
+      const data = await predictText(text);
+      
+      // Karena di dalam service biasanya langsung mengembalikan response.data,
+      // kita bisa langsung memasukkannya ke setResult
+      setResult(data);
     } catch (error) {
       console.error(error);
       alert("Tidak dapat terhubung ke backend.");
@@ -39,7 +38,7 @@ export default function Detector() {
 
     setLoading(false);
   };
-
+  
   return (
     <section id="detector" className="bg-slate-50 py-24">
       <div className="max-w-7xl mx-auto px-6">
